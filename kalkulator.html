@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator | Tania's Secret Helper</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #fffdfd;
+            font-family: 'Nunito', sans-serif;
+            color: #6a6a6a;
+        }
+
+        /* HEADER */
+
+        .header {
+            width: 100%;
+            background-color: #f9d9e9;
+            text-align: center;
+            padding: 35px 20px 30px;
+        }
+
+        h1 {
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(32px, 5vw, 65px);
+            font-weight: 900;
+            margin: 0 0 25px;
+            line-height: 1.3;
+        }
+
+        .glossy-title {
+            display: inline-block;
+            color: #e993ba;
+
+            text-shadow:
+                1px 1px 0 #d780ab,
+                2px 2px 0 #cc719e,
+                3px 3px 0 #bb628d,
+                4px 4px 0 #a8517d,
+                5px 7px 9px rgba(110, 50, 80, 0.25);
+        }
+
+        /* MENY */
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .meny {
+            color: #88516e;
+            font-family: 'Nunito', sans-serif;
+            font-size: 19px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .meny:hover {
+            color: #e993ba;
+        }
+
+        /* KALKULATORSIDE */
+
+        .calculator-page {
+            width: 100%;
+            max-width: 540px;
+            margin: 40px auto 70px;
+            padding: 0 20px;
+        }
+
+        .calculator-intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .calculator-intro h2 {
+            color: #88516e;
+            font-size: 34px;
+        }
+
+        .calculator-intro p {
+            color: #6a6a6a;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        /* DIN KALKULATOR */
+
+        #calculator {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: rgb(252, 252, 252);
+            max-width: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+
+            border: 2px solid rgb(221, 220, 220);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 25px;
+        }
+
+        #display {
+            width: 100%;
+            padding: 20px;
+            font-size: 5rem;
+            text-align: center;
+            border: none;
+            background-color: rgb(239, 237, 238);
+            color: rgb(248, 200, 223);
+        }
+
+        #keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 25px;
+        }
+
+        button {
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            border: none;
+            background-color: rgb(239, 237, 238);
+            font-size: 3rem;
+            font-family: 'Nunito', sans-serif;
+            color: rgb(233, 147, 186);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgb(248, 200, 223);
+        }
+
+        .operator-btn {
+            background-color: rgb(251, 227, 239);
+        }
+
+        button:active {
+            background-color: rgb(248, 200, 223);
+        }
+
+        .operator-btn:active {
+            background-color: rgb(251, 227, 239);
+        }
+
+        /* MOBIL */
+
+        @media (max-width: 540px) {
+
+            #keys {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+                padding: 15px;
+                gap: 8px;
+            }
+
+            #keys button {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 1 / 1;
+                border-radius: 50%;
+                font-size: 2rem;
+            }
+
+            #display {
+                font-size: 3rem;
+            }
+
+            .nav {
+                gap: 12px;
+            }
+
+            .meny {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <h1>
+            <span class="glossy-title">
+                Tania's secret helper
+            </span> 🍓
+        </h1>
+
+    
+<nav class="nav">
+    <a href="index.html" class="meny">home</a>
+    <a href="kalkulator.html" class="meny">kalkulator</a>
+    <a href="huskeliste.html" class="meny">tools</a>
+    <a href="notes.html" class="meny">notes</a>
+    <a href="gaater.html" class="meny">gåter</a>
+</nav>
+
+
+    </header>
+
+
+    <!-- KALKULATOR -->
+
+    <main class="calculator-page">
+
+        <div class="calculator-intro">
+
+            <h2>Min kalkulator ♡</h2>
+
+            <p>
+                Trenger du hjelp med et regnestykke?
+                Bruk kalkulatoren nedenfor!
+            </p>
+
+        </div>
+
+
+        <div id="calculator">
+
+            <input id="display" readonly>
+
+            <div id="keys">
+
+                <button onclick="appendToDisplay('+')" class="operator-btn">+</button>
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+
+                <button onclick="appendToDisplay('-')" class="operator-btn">-</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+
+                <button onclick="appendToDisplay('*')" class="operator-btn">×</button>
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+
+                <button onclick="appendToDisplay('/')" class="operator-btn">÷</button>
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+                <button onclick="calculate()">=</button>
+
+                <button onclick="clearDisplay()" class="operator-btn">C</button>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="index.js"></script>
+
+</body>
+</html>

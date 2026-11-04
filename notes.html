@@ -1,0 +1,707 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanias hemmelige notater</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* NOTATSIDEN */
+
+        .notes-page {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #6a6a6a;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .notes-page * {
+            box-sizing: border-box;
+        }
+
+        .notes-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .notes-header h2 {
+            font-size: 36px;
+            color: #88516e;
+            margin-bottom: 10px;
+        }
+
+        .notes-header p {
+            font-size: 18px;
+        }
+
+        /* OPPSETT */
+
+        .notes-layout {
+            display: grid;
+            grid-template-columns: 360px minmax(0, 1fr);
+            gap: 25px;
+            align-items: start;
+        }
+
+        /* SKRIVEBOKS */
+
+        .note-editor {
+            background-color: #f3eef1;
+            border-radius: 25px;
+            padding: 30px;
+        }
+
+        .note-editor h3 {
+            color: #88516e;
+            font-size: 25px;
+            margin-top: 0;
+        }
+
+        .note-editor label {
+            display: block;
+            font-weight: 800;
+            margin: 20px 0 8px;
+        }
+
+        .note-editor input,
+        .note-editor textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            background-color: white;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            color: #6a6a6a;
+            outline: none;
+        }
+
+        .note-editor input:focus,
+        .note-editor textarea:focus {
+            border-color: #e993ba;
+        }
+
+        .note-editor textarea {
+            min-height: 210px;
+            resize: vertical;
+        }
+
+        .notes-page .btn {
+            width: auto;
+            height: auto;
+            aspect-ratio: auto;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .notes-page .btn:hover {
+            transform: none;
+            opacity: 0.85;
+        }
+
+        .notes-page .save-btn {
+            background-color: #e993ba;
+            color: white;
+        }
+
+        .notes-page .secondary-btn {
+            background-color: white;
+            color: #88516e;
+        }
+
+        .editor-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .notes-page [hidden] {
+            display: none !important;
+        }
+
+        /* LAGREDE NOTATER */
+
+        .saved-notes {
+            min-width: 0;
+        }
+
+        .saved-notes h3 {
+            font-size: 25px;
+            color: #88516e;
+            margin-top: 0;
+        }
+
+        .notes-tools {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .notes-tools input,
+        .notes-tools select {
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #eadfe5;
+            border-radius: 14px;
+            background-color: #f3eef1;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            color: #88516e;
+        }
+
+        .notes-tools input {
+            flex: 1;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        /* HVERT NOTAT */
+
+        .note-card {
+            background-color: #f3eef1;
+            border-radius: 22px;
+            padding: 23px;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .note-category {
+            display: inline-block;
+            padding: 6px 13px;
+            background-color: #f9d9e9;
+            border-radius: 30px;
+            color: #88516e;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .note-card h4 {
+            font-size: 21px;
+            color: #88516e;
+            margin: 15px 0 10px;
+        }
+
+        .note-content {
+            font-size: 15px;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .note-date {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+        }
+
+        .note-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .notes-page .edit-btn {
+            background-color: white;
+            color: #88516e;
+        }
+
+        .notes-page .delete-btn {
+            background-color: #f9d9e9;
+            color: #a4527c;
+        }
+
+        .empty-notes {
+            background-color: #f3eef1;
+            border-radius: 22px;
+            padding: 35px;
+            text-align: center;
+            color: #88516e;
+        }
+
+        /* MOBIL */
+
+        @media (max-width: 900px) {
+            .notes-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .notes-tools {
+                flex-direction: column;
+            }
+
+            .notes-header h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+        <h1>Tania's secret helper 🍓</h1>
+
+  <nav class="nav">
+    <a href="index.html" class="meny">home</a>
+    <a href="kalkulator.html" class="meny">kalkulator</a>
+    <a href="huskeliste.html" class="meny">tools</a>
+    <a href="notes.html" class="meny">notes</a>
+    <a href="gaater.html" class="meny">gåter</a>
+</nav>
+
+    </header>
+
+
+    <!-- NOTATSIDEN -->
+
+    <main class="notes-page">
+
+        <div class="notes-header">
+            <h2>Mine hemmelige notater ♡</h2>
+            <p>Et lite sted for alle tankene og ideene mine!</p>
+        </div>
+
+        <div class="notes-layout">
+
+            <!-- NYTT NOTAT -->
+
+            <section class="note-editor">
+
+                <h3 id="editor-heading">Skriv et nytt notat ♡</h3>
+
+                <form id="note-form">
+
+                    <label for="note-title">Tittel</label>
+                    <input
+                        type="text"
+                        id="note-title"
+                        placeholder="Hva handler notatet om?"
+                        maxlength="100"
+                        required
+                    >
+
+                    <label for="note-category">
+                        Kategori
+                    </label>
+
+                    <input
+                        type="text"
+                        id="note-category"
+                        list="category-suggestions"
+                        value="Matte"
+                        maxlength="40"
+                        required
+                    >
+
+                    <datalist id="category-suggestions">
+                        <option value="Matte">
+                        <option value="Skole">
+                        <option value="Ideer">
+                        <option value="Personlig">
+                        <option value="Annet">
+                    </datalist>
+
+                    <label for="note-text">Mitt notat</label>
+
+                    <textarea
+                        id="note-text"
+                        placeholder="Skriv tankene dine her..."
+                        required
+                    ></textarea>
+
+                    <div class="editor-actions">
+
+                        <button
+                            type="submit"
+                            class="btn save-btn"
+                            id="save-button"
+                        >
+                            Lagre notat ♡
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn secondary-btn"
+                            id="cancel-edit"
+                            hidden
+                        >
+                            Avbryt
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- LAGREDE NOTATER -->
+
+            <section class="saved-notes">
+
+                <h3>Mine notater (<span id="note-count">0</span>)</h3>
+
+                <div class="notes-tools">
+
+                    <input
+                        type="search"
+                        id="search-notes"
+                        placeholder="Søk i notatene..."
+                        aria-label="Søk i notatene"
+                    >
+
+                    <select
+                        id="filter-category"
+                        aria-label="Filtrer etter kategori"
+                    >
+                        <option value="all">Alle kategorier</option>
+                    </select>
+
+                </div>
+
+                <div class="notes-grid" id="notes-list"></div>
+
+                <p class="empty-notes" id="empty-message">
+                    Ingen notater ennå. Skriv ditt første notat!
+                </p>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+        const STORAGE_KEY = "tanias-mattehjelper-notater";
+
+        const form = document.getElementById("note-form");
+        const titleInput = document.getElementById("note-title");
+        const categoryInput = document.getElementById("note-category");
+        const textInput = document.getElementById("note-text");
+        const notesList = document.getElementById("notes-list");
+        const searchInput = document.getElementById("search-notes");
+        const filterCategory = document.getElementById("filter-category");
+
+        const noteCount = document.getElementById("note-count");
+        const emptyMessage = document.getElementById("empty-message");
+        const editorHeading = document.getElementById("editor-heading");
+        const saveButton = document.getElementById("save-button");
+        const cancelButton = document.getElementById("cancel-edit");
+
+        let notes = [];
+        let editingId = null;
+
+        // HENT LAGREDE NOTATER
+
+        try {
+            const saved = JSON.parse(
+                localStorage.getItem(STORAGE_KEY) || "[]"
+            );
+
+            notes = Array.isArray(saved) ? saved : [];
+        } catch (error) {
+            alert("Kunne ikke hente lagrede notater.");
+        }
+
+
+        // LAGRE I NETTLESEREN
+
+        function saveNotes(updatedNotes) {
+            try {
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(updatedNotes)
+                );
+
+                notes = updatedNotes;
+                return true;
+            } catch (error) {
+                alert("Kunne ikke lagre notatet i nettleseren.");
+                return false;
+            }
+        }
+
+
+        // NULLSTILL SKRIVEFELT
+
+        function resetEditor() {
+            form.reset();
+            categoryInput.value = "Matte";
+
+            editingId = null;
+
+            editorHeading.textContent = "Skriv et nytt notat ♡";
+            saveButton.textContent = "Lagre notat ♡";
+            cancelButton.hidden = true;
+        }
+
+
+        // LAGRE NYTT ELLER REDIGERT NOTAT
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const title = titleInput.value.trim();
+            const category = categoryInput.value.trim();
+            const content = textInput.value.trim();
+
+            if (!title || !category || !content) {
+                alert("Fyll ut tittel, kategori og notat.");
+                return;
+            }
+
+            const now = Date.now();
+            let updatedNotes;
+
+            if (editingId !== null) {
+
+                updatedNotes = notes.map(function(note) {
+                    if (note.id === editingId) {
+                        return {
+                            ...note,
+                            title: title,
+                            category: category,
+                            content: content,
+                            updatedAt: now
+                        };
+                    }
+
+                    return note;
+                });
+
+            } else {
+
+                const newNote = {
+                    id: String(now) + "-" + Math.random(),
+                    title: title,
+                    category: category,
+                    content: content,
+                    updatedAt: now
+                };
+
+                updatedNotes = [newNote, ...notes];
+            }
+
+            if (saveNotes(updatedNotes)) {
+                resetEditor();
+                showNotes();
+            }
+        });
+
+
+        // REDIGER NOTAT
+
+        function editNote(id) {
+            const note = notes.find(function(item) {
+                return item.id === id;
+            });
+
+            if (!note) return;
+
+            editingId = id;
+
+            titleInput.value = note.title;
+            categoryInput.value = note.category;
+            textInput.value = note.content;
+
+            editorHeading.textContent = "Rediger notatet ♡";
+            saveButton.textContent = "Lagre endringer ♡";
+            cancelButton.hidden = false;
+
+            titleInput.focus();
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+
+        // SLETT NOTAT
+
+        function deleteNote(id) {
+            const confirmed = confirm(
+                "Er du sikker på at du vil slette dette notatet?"
+            );
+
+            if (!confirmed) return;
+
+            const updatedNotes = notes.filter(function(note) {
+                return note.id !== id;
+            });
+
+            if (saveNotes(updatedNotes)) {
+                if (editingId === id) {
+                    resetEditor();
+                }
+
+                showNotes();
+            }
+        }
+
+
+        // AVBRYT REDIGERING
+
+        cancelButton.addEventListener("click", resetEditor);
+
+
+        // OPPDATER KATEGORIFILTERET
+
+        function updateCategories() {
+            const selected = filterCategory.value;
+
+            const categories = [
+                ...new Set(notes.map(note => note.category))
+            ].sort((a, b) => a.localeCompare(b, "nb"));
+
+            filterCategory.replaceChildren();
+
+            const allOption = new Option(
+                "Alle kategorier",
+                "all"
+            );
+
+            filterCategory.add(allOption);
+
+            categories.forEach(function(category) {
+                filterCategory.add(
+                    new Option(category, category)
+                );
+            });
+
+            filterCategory.value = categories.includes(selected)
+                ? selected
+                : "all";
+        }
+
+
+        // VIS ALLE NOTATENE
+
+        function showNotes() {
+            updateCategories();
+
+            notesList.replaceChildren();
+
+            const search = searchInput.value.toLowerCase().trim();
+            const category = filterCategory.value;
+
+            const filteredNotes = notes
+                .filter(function(note) {
+                    const matchesSearch =
+                        note.title.toLowerCase().includes(search) ||
+                        note.content.toLowerCase().includes(search) ||
+                        note.category.toLowerCase().includes(search);
+
+                    const matchesCategory =
+                        category === "all" ||
+                        note.category === category;
+
+                    return matchesSearch && matchesCategory;
+                })
+                .sort((a, b) => b.updatedAt - a.updatedAt);
+
+            noteCount.textContent = notes.length;
+
+            emptyMessage.hidden = filteredNotes.length > 0;
+
+            emptyMessage.textContent = notes.length === 0
+                ? "Ingen notater ennå. Skriv ditt første notat!"
+                : "Fant ingen notater i denne kategorien eller søket.";
+
+            filteredNotes.forEach(function(note) {
+
+                const card = document.createElement("article");
+                card.className = "note-card";
+
+                const badge = document.createElement("span");
+                badge.className = "note-category";
+                badge.textContent = note.category;
+
+                const heading = document.createElement("h4");
+                heading.textContent = note.title;
+
+                const content = document.createElement("p");
+                content.className = "note-content";
+                content.textContent = note.content;
+
+                const date = document.createElement("p");
+                date.className = "note-date";
+
+                date.textContent = "Lagret: " +
+                    new Date(note.updatedAt).toLocaleDateString("nb-NO");
+
+                const actions = document.createElement("div");
+                actions.className = "note-actions";
+
+                const editButton = document.createElement("button");
+                editButton.className = "btn edit-btn";
+                editButton.textContent = "Rediger";
+
+                editButton.addEventListener("click", function() {
+                    editNote(note.id);
+                });
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "btn delete-btn";
+                deleteButton.textContent = "Slett";
+
+                deleteButton.addEventListener("click", function() {
+                    deleteNote(note.id);
+                });
+
+                actions.append(editButton, deleteButton);
+
+                card.append(
+                    badge,
+                    heading,
+                    content,
+                    date,
+                    actions
+                );
+
+                notesList.appendChild(card);
+            });
+        }
+
+
+        // SØK OG FILTER
+
+        searchInput.addEventListener("input", showNotes);
+        filterCategory.addEventListener("change", showNotes);
+
+
+        // VIS NOTATER NÅR SIDEN ÅPNES
+
+        showNotes();
+
+    </script>
+
+</body>
+</html>

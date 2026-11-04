@@ -1,52 +1,697 @@
-
 <!DOCTYPE html>
 <html lang="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-        <link rel="stylesheet" href="style.css">
+    <title>Tania's Secret Helper</title>
 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        :root {
+            --pink-bg: rgb(249, 218, 233);
+            --pink-light: rgb(243, 238, 241);
+            --pink-accent: rgb(233, 147, 186);
+            --pink-dark: rgb(125, 74, 100);
+            --text: #6a6a6a;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+            background-color: #fcfbfc;
+            color: var(--text);
+        }
+
+        /* HEADER */
+        .header {
+            width: 100%;
+            background-color: var(--pink-bg);
+            text-align: center;
+            padding: 32px 20px 34px;
+        }
+
+        h1 {
+            margin: 0 0 28px;
+            font-size: clamp(38px, 5vw, 68px);
+            font-weight: 900;
+            line-height: 1.1;
+        }
+
+        .glossy-title {
+            display: inline-block;
+            color: #e993ba;
+            text-shadow:
+                1px 1px 0 #db85af,
+                2px 2px 0 #cf789f,
+                3px 3px 0 #c36b92,
+                4px 4px 0 #b45d83,
+                5px 8px 14px rgba(120, 60, 90, 0.22);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 34px;
+        }
+
+        .meny {
+            text-decoration: none;
+            color: var(--pink-dark);
+            font-size: 20px;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .meny:hover {
+            color: var(--pink-accent);
+        }
+
+        /* HOVEDOMRÅDE */
+        .home-page {
+            max-width: 1320px;
+            margin: 55px auto 80px;
+            padding: 0 28px;
+        }
+
+        /* HERO */
+        .hero {
+            background-color: var(--pink-light);
+            border-radius: 38px;
+            padding: 48px 40px;
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ROBOT */
+        .robot-side {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 520px;
+            position: relative;
+        }
+
+        .robot-scene {
+            position: relative;
+            width: 470px;
+            height: 500px;
+        }
+
+        .robot-float {
+            position: absolute;
+            inset: 0;
+            animation: robotFloat 4s ease-in-out infinite;
+        }
+
+        .robot-shadow {
+            position: absolute;
+            bottom: 18px;
+            left: 120px;
+            width: 220px;
+            height: 26px;
+            background: rgba(122, 82, 101, 0.16);
+            border-radius: 50%;
+            filter: blur(12px);
+        }
+
+        .robot-antenna {
+            position: absolute;
+            left: 228px;
+            top: 18px;
+            width: 10px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(to bottom, #f3b7d4, #cc80a7);
+        }
+
+        .robot-antenna::before {
+            content: "";
+            position: absolute;
+            top: -22px;
+            left: -11px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #ffffff, #f3b7d4 45%, #cf7ea8 100%);
+            box-shadow: 0 6px 14px rgba(212, 134, 176, 0.55);
+        }
+
+        .robot-head {
+            position: absolute;
+            left: 108px;
+            top: 72px;
+            width: 255px;
+            height: 190px;
+            border-radius: 70px;
+            border: 6px solid #fff;
+            background: linear-gradient(145deg, #ffffff 0%, #fff2f8 35%, #ebc2d8 70%, #d59bbb 100%);
+            box-shadow:
+                inset 10px 10px 18px rgba(255,255,255,0.85),
+                inset -12px -12px 22px rgba(165, 96, 130, 0.2),
+                0 14px 28px rgba(125, 74, 100, 0.14);
+        }
+
+        .robot-ear {
+            position: absolute;
+            top: 62px;
+            width: 24px;
+            height: 64px;
+            border-radius: 18px;
+            background: linear-gradient(to bottom, #f3b7d4, #d685ae);
+            box-shadow: 0 4px 10px rgba(190, 110, 145, 0.22);
+        }
+
+        .robot-ear.left {
+            left: -20px;
+        }
+
+        .robot-ear.right {
+            right: -20px;
+        }
+
+        .robot-face {
+            position: absolute;
+            left: 22px;
+            top: 36px;
+            width: 199px;
+            height: 116px;
+            border-radius: 44px;
+            background: linear-gradient(145deg, #7c5e8b, #34273f);
+            box-shadow:
+                inset 0 6px 10px rgba(255,255,255,0.1),
+                0 3px 10px rgba(95, 58, 80, 0.2);
+        }
+
+        .robot-eye {
+            position: absolute;
+            top: 34px;
+            width: 22px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff7fc;
+            box-shadow:
+                0 0 15px #ffbadc,
+                0 0 24px rgba(255, 183, 217, 0.55);
+            animation: blink 5s infinite;
+        }
+
+        .robot-eye.left {
+            left: 48px;
+        }
+
+        .robot-eye.right {
+            right: 48px;
+        }
+
+        .robot-cheek {
+            position: absolute;
+            top: 74px;
+            width: 30px;
+            height: 12px;
+            border-radius: 50%;
+            background: #f09cc2;
+            opacity: 0.8;
+            filter: blur(2px);
+        }
+
+        .robot-cheek.left {
+            left: 23px;
+        }
+
+        .robot-cheek.right {
+            right: 23px;
+        }
+
+        .robot-smile {
+            position: absolute;
+            left: 84px;
+            top: 74px;
+            width: 32px;
+            height: 15px;
+            border-bottom: 4px solid #ffc8e5;
+            border-radius: 0 0 50% 50%;
+        }
+
+        .robot-body {
+            position: absolute;
+            left: 132px;
+            top: 262px;
+            width: 205px;
+            height: 140px;
+            border: 6px solid #fff;
+            border-radius: 48px 48px 58px 58px;
+            background: linear-gradient(145deg, #ffffff 0%, #ffeaf4 40%, #dca3c2 100%);
+            box-shadow:
+                inset -14px -12px 18px rgba(160, 88, 122, 0.18),
+                0 10px 18px rgba(125, 74, 100, 0.12);
+        }
+
+        .robot-heart {
+            position: absolute;
+            left: 65px;
+            top: 28px;
+            width: 72px;
+            height: 72px;
+            border-radius: 22px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(145deg, #fff, #ffd9ea);
+            color: #e07bab;
+            font-size: 42px;
+            box-shadow:
+                inset 0 3px 8px rgba(255,255,255,0.8),
+                0 4px 10px rgba(185, 125, 153, 0.18);
+        }
+
+        .robot-arm {
+            position: absolute;
+            top: 285px;
+            width: 105px;
+            height: 44px;
+            border: 5px solid #fff;
+            border-radius: 30px;
+            background: linear-gradient(145deg, #fff, #f7d2e6, #d48fb5);
+            box-shadow: 0 8px 15px rgba(125, 74, 100, 0.14);
+        }
+
+        .robot-arm.left {
+            left: 52px;
+            transform-origin: 90px 22px;
+            transform: rotate(24deg);
+        }
+
+        .robot-arm.right {
+            left: 316px;
+            transform-origin: 14px 22px;
+            transform: rotate(-22deg);
+            animation: waveEveryFive 5s ease-in-out infinite;
+        }
+
+        .robot-hand {
+            position: absolute;
+            top: -7px;
+            width: 44px;
+            height: 50px;
+            border: 5px solid #fff;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #fff, #ffd6e8 50%, #d885b0 100%);
+        }
+
+        .robot-arm.left .robot-hand {
+            left: -16px;
+        }
+
+        .robot-arm.right .robot-hand {
+            right: -16px;
+        }
+
+        .robot-foot {
+            position: absolute;
+            top: 405px;
+            width: 70px;
+            height: 34px;
+            border-radius: 20px;
+            background: linear-gradient(to bottom, #fff, #dca3c2);
+            box-shadow: 0 6px 12px rgba(190, 130, 155, 0.28);
+        }
+
+        .robot-foot.left {
+            left: 160px;
+        }
+
+        .robot-foot.right {
+            left: 246px;
+        }
+
+        /* TEKST */
+        .text-side {
+            max-width: 430px;
+            justify-self: start;
+        }
+
+        .text-side h2 {
+            margin: 0 0 20px;
+            font-size: clamp(42px, 5vw, 66px);
+            line-height: 1.05;
+            color: var(--pink-dark);
+            font-weight: 900;
+        }
+
+        .text-side p {
+            margin: 0 0 18px;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .pink-button {
+            display: inline-block;
+            margin-top: 14px;
+            padding: 18px 34px;
+            background: var(--pink-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .pink-button:hover {
+            background: #dc84ad;
+            transform: translateY(-2px);
+        }
+
+        /* KORT */
+        .features {
+            margin-top: 70px;
+        }
+
+        .features-intro {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .features-intro h2 {
+            margin: 0 0 10px;
+            font-size: 36px;
+            color: var(--pink-dark);
+        }
+
+        .features-intro p {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .feature-card {
+            background: var(--pink-light);
+            border-radius: 28px;
+            padding: 28px;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.07);
+        }
+
+        .feature-icon {
+            width: 62px;
+            height: 62px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+            background: #f9d9e9;
+            color: var(--pink-dark);
+            font-size: 30px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .feature-card h3 {
+            margin: 0 0 10px;
+            font-size: 25px;
+            color: var(--pink-dark);
+        }
+
+        .feature-card p {
+            margin: 0 0 16px;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .feature-link {
+            color: var(--pink-accent);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .feature-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ANIMASJONER */
+        @keyframes robotFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes blink {
+            0%, 44%, 48%, 100% {
+                transform: scaleY(1);
+            }
+            46% {
+                transform: scaleY(0.1);
+            }
+        }
+
+        @keyframes waveEveryFive {
+            0%   { transform: rotate(-22deg); }
+            4%   { transform: rotate(-78deg); }
+            8%   { transform: rotate(-28deg); }
+            12%  { transform: rotate(-72deg); }
+            16%  { transform: rotate(-22deg); }
+            100% { transform: rotate(-22deg); }
+        }
+
+        /* MOBIL */
+        @media (max-width: 980px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 0;
+                padding: 32px 24px;
+            }
+
+            .robot-side {
+                min-height: 400px;
+            }
+
+            .text-side {
+                max-width: 100%;
+                justify-self: center;
+                text-align: center;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .header {
+                padding: 26px 16px 28px;
+            }
+
+            .nav {
+                gap: 16px;
+            }
+
+            .meny {
+                font-size: 16px;
+            }
+
+            .home-page {
+                padding: 0 16px;
+                margin-top: 30px;
+            }
+
+            .hero {
+                border-radius: 28px;
+                padding: 22px 18px 30px;
+            }
+
+            .robot-side {
+                min-height: 320px;
+            }
+
+            .robot-scene {
+                transform: scale(0.68);
+                transform-origin: top center;
+                margin-top: -30px;
+                margin-bottom: -80px;
+            }
+
+            .text-side h2 {
+                font-size: 38px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .robot-float,
+            .robot-arm.right,
+            .robot-eye {
+                animation: none;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1> My secret calculator 🍓</h1>
+    <header class="header">
+        <h1>
+            <span class="glossy-title">Tania's secret helper</span> 🍓
+        </h1>
 
     
+<nav class="nav">
+    <a href="index.html" class="meny">home</a>
+    <a href="kalkulator.html" class="meny">kalkulator</a>
+    <a href="huskeliste.html" class="meny">tools</a>
+    <a href="notes.html" class="meny">notes</a>
+    <a href="gaater.html" class="meny">gåter</a>
+</nav>
 
+    </header>
 
-    <div id="calculator">
-        <input id="display" readonly>
-    <div id="keys">
+    <main class="home-page">
 
-<button onclick="appendToDisplay('+')" class="operator-btn">+</button>
-<button onclick="appendToDisplay('7')">7</button>
-<button onclick="appendToDisplay('8')">8</button>
-<button onclick="appendToDisplay('9')">9</button>
+        <section class="hero">
 
-<button onclick="appendToDisplay('-')" class="operator-btn">-</button>
-<button onclick="appendToDisplay('4')">4</button>
-<button onclick="appendToDisplay('5')">5</button>
-<button onclick="appendToDisplay('6')">6</button>
+            <div class="robot-side">
+                <div class="robot-scene" role="img" aria-label="Rosa hjelperobot som vinker">
+                    <div class="robot-float">
 
-<button onclick="appendToDisplay('*')" class="operator-btn">*</button>
-<button onclick="appendToDisplay('1')">1</button>
-<button onclick="appendToDisplay('2')">2</button>
-<button onclick="appendToDisplay('3')">3</button>
+                        <div class="robot-antenna"></div>
 
-<button onclick="appendToDisplay('/')" class="operator-btn">/</button>
-<button onclick="appendToDisplay('0')">0</button>
-<button onclick="appendToDisplay('.')">.</button>
-<button onclick="calculate()">=</button>
+                        <div class="robot-arm left">
+                            <div class="robot-hand"></div>
+                        </div>
 
-<button onclick="clearDisplay()" class="operator-btn">C</button>
+                        <div class="robot-arm right">
+                            <div class="robot-hand"></div>
+                        </div>
 
+                        <div class="robot-foot left"></div>
+                        <div class="robot-foot right"></div>
 
+                        <div class="robot-body">
+                            <div class="robot-heart">♡</div>
+                        </div>
 
+                        <div class="robot-head">
+                            <div class="robot-ear left"></div>
+                            <div class="robot-ear right"></div>
 
+                            <div class="robot-face">
+                                <div class="robot-eye left"></div>
+                                <div class="robot-eye right"></div>
+                                <div class="robot-cheek left"></div>
+                                <div class="robot-cheek right"></div>
+                                <div class="robot-smile"></div>
+                            </div>
+                        </div>
 
+                    </div>
 
-   <script src = "index.js"></script>
+                    <div class="robot-shadow"></div>
+                </div>
+            </div>
+
+            <div class="text-side">
+                <h2>Hei Tania! ♡</h2>
+
+                <p>Hva trenger du hjelp med i dag?</p>
+
+                <p>
+                    Jeg er her for å hjelpe deg med alt mulig —
+                    matte, verktøy, notater, gåter og andre nyttige ting.
+                </p>
+
+                <a href="#features" class="pink-button">
+                    Se hva jeg kan hjelpe med ♡
+                </a>
+            </div>
+
+        </section>
+
+        <section class="features" id="features">
+
+            <div class="features-intro">
+                <h2>Velg det du trenger ♡</h2>
+                <p>Her er de viktigste delene av nettsiden din.</p>
+            </div>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+                    <div class="feature-icon">÷</div>
+                    <h3>Kalkulator</h3>
+                    <p>
+                        Regn ut matteoppgaver raskt og enkelt
+                        med kalkulatoren.
+                    </p>
+                    <a href="kalkulator.html" class="feature-link">
+                        Åpne kalkulator ♡
+                    </a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">⌘</div>
+                    <h3>Helpful Tools</h3>
+                    <p>
+                        Bruk oversetter, planlegger,
+                        tekstverktøy og Mac/PC-hjelp.
+                    </p>
+                    <a href="huskeliste.html" class="feature-link">
+                        Åpne tools ♡
+                    </a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">✎</div>
+                    <h3>Notater</h3>
+                    <p>
+                        Skriv ned tanker, ideer og ting
+                        du vil huske senere.
+                    </p>
+                    <a href="notes.html" class="feature-link">
+                        Åpne notater ♡
+                    </a>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">?</div>
+                    <h3>Gåter</h3>
+                    <p>
+                        Ta en pause og kos deg
+                        med morsomme gåter.
+                    </p>
+                    <a href="gaater.html" class="feature-link">
+                        Åpne gåter ♡
+                    </a>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </body>
 </html>

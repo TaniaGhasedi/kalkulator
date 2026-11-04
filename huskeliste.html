@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools ♡</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* HELPFUL TOOLS */
+
+        body {
+            height: auto;
+            min-height: 100vh;
+            justify-content: flex-start;
+            background: #fffdfd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .tools-page {
+            width: 100%;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px 60px;
+            font-family: 'Nunito', sans-serif;
+            color: #715e68;
+        }
+
+        .tools-intro {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tools-intro h2 {
+            color: #965678;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        /* FANER */
+
+        .tools-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .tools-page button {
+            width: auto;
+            height: auto;
+            aspect-ratio: auto;
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .tools-page button:hover {
+            transform: none;
+        }
+
+        .tab-btn {
+            background: #f3e9ef;
+            color: #965678;
+        }
+
+        .tab-btn.active {
+            background: #e993ba;
+            color: white;
+        }
+
+        /* INNHOLDSBOKSER */
+
+        .tool-panel {
+            background: #f3eef1;
+            border-radius: 25px;
+            padding: 30px;
+            border: 1px solid #eadce4;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+        }
+
+        .tool-panel[hidden] {
+            display: none;
+        }
+
+        .tool-panel h3 {
+            color: #965678;
+            font-size: 27px;
+            margin-top: 0;
+        }
+
+        .tool-panel p {
+            line-height: 1.6;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 22px;
+            border-radius: 18px;
+            min-width: 0;
+        }
+
+        .tool-card h4 {
+            margin-top: 0;
+            color: #965678;
+            font-size: 20px;
+        }
+
+        /* SKRIVEFELT */
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+            min-width: 0;
+        }
+
+        .field label {
+            color: #88516e;
+            font-weight: 800;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            min-width: 0;
+            padding: 13px;
+            border: 2px solid #eadce4;
+            border-radius: 13px;
+            background: white;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            color: #6a6a6a;
+            outline: none;
+        }
+
+        .field textarea {
+            min-height: 180px;
+            resize: vertical;
+        }
+
+        .field input:focus,
+        .field textarea:focus,
+        .field select:focus {
+            border-color: #e993ba;
+        }
+
+        /* KNAPPER */
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .tools-page .primary-btn {
+            background: #e993ba;
+            color: white;
+        }
+
+        .tools-page .soft-btn {
+            background: #f9d9e9;
+            color: #88516e;
+        }
+
+        .tools-page .delete-btn {
+            background: #ffe2e8;
+            color: #ad506c;
+        }
+
+        .status {
+            color: #965678;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .small-text {
+            font-size: 13px;
+            color: #88717e;
+        }
+
+        /* PLANLEGGER */
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-item {
+            background: #f8f1f5;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .task-item.completed .task-name {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .task-name {
+            font-weight: 800;
+            color: #88516e;
+        }
+
+        .task-info {
+            font-size: 13px;
+            color: #88717e;
+            margin-top: 5px;
+        }
+
+        .task-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .task-buttons button {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        /* HURTIGTASTER */
+
+        .shortcut-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .shortcut-item {
+            background: white;
+            padding: 15px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        kbd {
+            background: #f9d9e9;
+            color: #88516e;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* TEKSTSTATISTIKK */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 30px;
+            color: #d77fa9;
+        }
+
+        .stat-box span {
+            font-size: 13px;
+        }
+
+        /* RESULTATER */
+
+        .result {
+            display: block;
+            background: #f9e5ef;
+            color: #88516e;
+            padding: 18px;
+            border-radius: 14px;
+            margin-top: 15px;
+            font-weight: 800;
+            overflow-wrap: anywhere;
+        }
+
+        /* MOBIL */
+
+        @media (max-width: 750px) {
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-panel {
+                padding: 20px;
+            }
+
+            .tools-intro h2 {
+                font-size: 30px;
+            }
+
+            .shortcut-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <h1>Tania's secret helper 🍓</h1>
+
+     <nav class="nav">
+    <a href="index.html" class="meny">home</a>
+    <a href="kalkulator.html" class="meny">kalkulator</a>
+    <a href="huskeliste.html" class="meny">tools</a>
+    <a href="notes.html" class="meny">notes</a>
+    <a href="gaater.html" class="meny">gåter</a>
+</nav>
+
+
+    </header>
+
+
+    <main class="tools-page">
+
+        <div class="tools-intro">
+            <h2> Tools ♡</h2>
+            <p>Praktiske verktøy som gjør hverdagen enklere.</p>
+        </div>
+
+
+        <!-- VERKTØYMENY -->
+
+        <div class="tools-tabs">
+
+            <button class="tab-btn active"
+                data-panel="translator">
+                Oversetter
+            </button>
+
+            <button class="tab-btn"
+                data-panel="planner">
+                Planlegger
+            </button>
+
+            <button class="tab-btn"
+                data-panel="shortcuts">
+                Mac og PC
+            </button>
+
+            <button class="tab-btn"
+                data-panel="text-tools">
+                Tekstverktøy
+            </button>
+
+            <button class="tab-btn"
+                data-panel="math-tools">
+                Prosent og rabatt
+            </button>
+
+        </div>
+
+
+        <!-- 1. OVERSETTER -->
+
+        <section class="tool-panel" id="translator">
+
+            <h3>Oversetter ♡</h3>
+
+            <p>
+                Oversett tekst mellom norsk, engelsk,
+                spansk, fransk, tysk og kurdisk (sorani).
+            </p>
+
+            <div class="tool-grid">
+
+                <div>
+                    <div class="field">
+                        <label for="from-language">Fra språk</label>
+
+                        <select id="from-language">
+                            <option value="no">Norsk</option>
+                            <option value="en">Engelsk</option>
+                            <option value="es">Spansk</option>
+                            <option value="fr">Fransk</option>
+                            <option value="de">Tysk</option>
+                            <option value="ckb">Kurdisk (sorani)</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="source-text">Din tekst</label>
+
+                        <textarea id="source-text"
+                            dir="auto"
+                            placeholder="Skriv noe du vil oversette..."></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="field">
+                        <label for="to-language">Til språk</label>
+
+                        <select id="to-language">
+                            <option value="en">Engelsk</option>
+                            <option value="no">Norsk</option>
+                            <option value="es">Spansk</option>
+                            <option value="fr">Fransk</option>
+                            <option value="de">Tysk</option>
+                            <option value="ckb">Kurdisk (sorani)</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="translated-text">Oversettelse</label>
+
+                        <textarea id="translated-text"
+                            dir="auto"
+                            readonly
+                            placeholder="Oversettelsen vises her..."></textarea>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button class="primary-btn" id="translate-btn">
+                    Oversett
+                </button>
+
+                <button class="soft-btn" id="swap-btn">
+                    Bytt språk ↔
+                </button>
+
+                <button class="soft-btn" id="copy-translation">
+                    Kopier
+                </button>
+
+                <button class="soft-btn" id="google-btn">
+                    Google Oversetter
+                </button>
+            </div>
+
+            <p class="status" id="translation-status"
+                role="status"></p>
+
+            <p class="small-text">
+                Oversettelse krever internett.
+                Den automatiske oversetteren bruker MyMemory,
+                som har bruksgrenser og begrenset støtte for
+                enkelte språk. For sorani anbefales også
+                Google Oversetter-knappen.
+                Ikke skriv inn sensitiv informasjon.
+            </p>
+
+        </section>
+
+
+        <!-- 2. PLANLEGGER -->
+
+        <section class="tool-panel" id="planner" hidden>
+
+            <h3>Oppgaveplanlegger ♡</h3>
+
+            <p>
+                Organiser oppgaver med frist og prioritet.
+                Oppgavene lagres i nettleseren.
+            </p>
+
+            <div class="tool-grid">
+
+                <form class="tool-card" id="task-form">
+
+                    <h4>Ny oppgave</h4>
+
+                    <div class="field">
+                        <label for="task-name">Oppgave</label>
+                        <input id="task-name" required
+                            maxlength="120"
+                            placeholder="Hva skal gjøres?">
+                    </div>
+
+                    <div class="field">
+                        <label for="task-date">Frist</label>
+                        <input type="date" id="task-date">
+                    </div>
+
+                    <div class="field">
+                        <label for="task-priority">Prioritet</label>
+
+                        <select id="task-priority">
+                            <option value="Høy">Høy</option>
+                            <option value="Middels" selected>Middels</option>
+                            <option value="Lav">Lav</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="primary-btn">
+                        Legg til oppgave +
+                    </button>
+
+                    <p id="task-status" class="status"
+                        role="status"></p>
+
+                </form>
+
+                <div class="tool-card">
+
+                    <h4>Mine oppgaver (<span id="task-count">0</span>)</h4>
+
+                    <div class="field">
+                        <label for="task-filter">Vis oppgaver</label>
+
+                        <select id="task-filter">
+                            <option value="all">Alle</option>
+                            <option value="open">Ikke ferdige</option>
+                            <option value="done">Ferdige</option>
+                        </select>
+                    </div>
+
+                    <ul id="task-list" class="task-list"></ul>
+
+                    <p id="task-empty" class="small-text">
+                        Ingen oppgaver ennå.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- 3. MAC OG PC -->
+
+        <section class="tool-panel" id="shortcuts" hidden>
+
+            <h3>Mac og PC-hjelp ♡</h3>
+
+            <p>
+                Finn nyttige hurtigtaster på Mac og Windows.
+            </p>
+
+            <div class="tool-grid">
+
+                <div class="field">
+                    <label for="shortcut-os">Operativsystem</label>
+
+                    <select id="shortcut-os">
+                        <option value="mac">Mac</option>
+                        <option value="windows">Windows</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="shortcut-search">Søk</label>
+
+                    <input type="search"
+                        id="shortcut-search"
+                        placeholder="F.eks. kopier, skjermbilde...">
+                </div>
+
+            </div>
+
+            <ul id="shortcut-list" class="shortcut-list"></ul>
+
+            <p id="shortcut-empty" hidden>
+                Ingen resultater.
+            </p>
+
+        </section>
+
+
+        <!-- 4. TEKSTVERKTØY -->
+
+        <section class="tool-panel" id="text-tools" hidden>
+
+            <h3>Tekstverktøy ♡</h3>
+
+            <p>
+                Tell ord og tegn, finn lesetid og
+                rydd opp i teksten.
+            </p>
+
+            <div class="field">
+                <label for="analyze-text">Tekst</label>
+
+                <textarea id="analyze-text"
+                    placeholder="Skriv eller lim inn tekst her..."></textarea>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat-box">
+                    <strong id="word-count">0</strong>
+                    <span>Ord</span>
+                </div>
+
+                <div class="stat-box">
+                    <strong id="character-count">0</strong>
+                    <span>Tegn</span>
+                </div>
+
+                <div class="stat-box">
+                    <strong id="reading-time">0</strong>
+                    <span>Min. lesetid</span>
+                </div>
+
+            </div>
+
+            <div class="actions">
+
+                <button id="clean-text" class="primary-btn">
+                    Rydd mellomrom
+                </button>
+
+                <button id="copy-text" class="soft-btn">
+                    Kopier tekst
+                </button>
+
+                <button id="clear-text" class="soft-btn">
+                    Tøm
+                </button>
+
+            </div>
+
+            <p class="status" id="text-status"></p>
+
+        </section>
+
+
+        <!-- 5. MATTE -->
+
+        <section class="tool-panel" id="math-tools" hidden>
+
+            <h3>Prosent og rabatt ♡</h3>
+
+            <p>
+                Regn ut rabatter og prosent raskt og enkelt.
+            </p>
+
+            <div class="tool-grid">
+
+                <form id="discount-form" class="tool-card">
+
+                    <h4>Rabattkalkulator</h4>
+
+                    <div class="field">
+                        <label for="original-price">Pris (kr)</label>
+                        <input type="number"
+                            id="original-price"
+                            min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="discount-rate">Rabatt (%)</label>
+                        <input type="number"
+                            id="discount-rate"
+                            min="0" max="100"
+                            step="any" required>
+                    </div>
+
+                    <button type="submit" class="primary-btn">
+                        Beregn rabatt
+                    </button>
+
+                    <output id="discount-result" class="result">
+                        Resultatet kommer her.
+                    </output>
+
+                </form>
+
+                <form id="percent-form" class="tool-card">
+
+                    <h4>Hvor mange prosent?</h4>
+
+                    <div class="field">
+                        <label for="part-number">Del</label>
+                        <input type="number"
+                            id="part-number"
+                            min="0" step="any" required>
+                    </div>
+
+                    <div class="field">
+                        <label for="whole-number">Hele</label>
+                        <input type="number"
+                            id="whole-number"
+                            min="0.0000001" step="any" required>
+                    </div>
+
+                    <button type="submit" class="primary-btn">
+                        Regn ut prosent
+                    </button>
+
+                    <output id="percent-result" class="result">
+                        Resultatet kommer her.
+                    </output>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="huskeliste.js" defer></script>
+
+</body>
+</html>
